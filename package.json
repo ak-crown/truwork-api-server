@@ -1,0 +1,68 @@
+{
+  "name": "truwork-api-server",
+  "version": "0.0.1",
+  "main": "index.js",
+  "author": "Akarsh Sachdeva",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "lint": "eslint --ext .ts,.tsx . --max-warnings 0 --fix",
+    "tsc": "tsc",
+    "ci": "yarn lint && tsc",
+    "cleanup": "rimraf build",
+    "compile": "tsc --outDir ./build --rootDir ./src",
+    "copy": "copyfiles package.json build && copyfiles yarn.lock build && copyfiles .env.example build && copyfiles .env build",
+    "deploy": "cd build && git init && git add --all && git commit -m 'new build' && git remote add dokku dokku@server.truwork.co.in:api-server && git push dokku master --force",
+    "deployment": "yarn cleanup && yarn compile && yarn copy && yarn deploy && yarn cleanup",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@types/body-parser": "^1.19.0",
+    "@types/cookie-session": "^2.0.41",
+    "@types/express": "^4.17.8",
+    "@types/jsonwebtoken": "^8.5.0",
+    "@types/mongoose": "^5.7.36",
+    "axios": "^0.21.0",
+    "body-parser": "^1.19.0",
+    "cookie-session": "^1.4.0",
+    "cors": "^2.8.5",
+    "dotenv-safe": "^8.2.0",
+    "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
+    "express-validator": "^6.6.1",
+    "express-winston": "^4.0.5",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.10",
+    "multer": "^1.4.2",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.8",
+    "@types/dotenv-safe": "^8.1.1",
+    "@types/eslint": "^7.2.4",
+    "@typescript-eslint/eslint-plugin": "^4.5.0",
+    "@typescript-eslint/parser": "^4.5.0",
+    "concurrently": "^5.3.0",
+    "copyfiles": "^2.4.0",
+    "eslint": "^7.12.0",
+    "prettier": "^2.1.2",
+    "rimraf": "^3.0.2",
+    "ts-node": "^9.0.0",
+    "ts-node-dev": "^1.0.0",
+    "typescript": "^4.0.3"
+  },
+  "prettier": {
+    "arrowParens": "avoid",
+    "printWidth": 80,
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true,
+    "quoteProps": "consistent",
+    "trailingComma": "es5",
+    "bracketSpacing": true
+  },
+  "engines": {
+    "node": "12.19.0"
+  }
+}
